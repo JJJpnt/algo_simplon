@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>Validate</title>
+    <script type="text/javascript">
+    
+    function validerform() {
+        var myField = document.getElementById('myField');
+        var erreurLabel = document.getElementById('erreurlabel');
+
+        if(myField.value == "") {
+            erreurLabel.innerHTML = 'Remplissez la perruche SVP.';
+            return false;
+        } else {
+            erreurLabel.innerHTML = 'Perruche remplie MERCI.';
+            return false;            
+        }
+    }
+    
+    </script>
+  </head>
+  <body>
+    <div>
+      <form id="monformulaire" onsubmit="return validerform();">
+        <div>
+          <label for="label1">Champ&nbsp;:</label>
+          <input type="text" id="myField" size="60">
+          <span id="erreurlabel"></span>
+        </div>
+        <div>
+          <input type="submit" value="Envoyer">
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

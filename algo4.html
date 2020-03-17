@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Validate</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+            font-size: 1.25rem;
+            /* line-height: 1.25; */
+            color: white;
+            background-color: tomato;
+            padding: 3em;
+        }
+        #regimes {
+            display: flex;
+            font-size: 0.7rem;
+            justify-content: space-between;
+            padding: 0.2em 2em 0.2em 2em;
+        }
+        #salaires {
+            display: grid;
+            grid-template-columns: 2fr 2fr;
+            grid-template-rows: 3fr 3fr;
+            text-align: right;
+        }
+        .tl {
+            text-align: left;
+            margin-left: 2em;
+        }
+        .cont {
+            /* border: 1px solid whitesmoke; */
+            background-color: rgba(255,200,200,.2);
+            border-radius: 1em;
+        }
+
+        input[type=text] {
+            border: 1px solid white;
+            border-radius: 0.2rem;
+            color: tomato;
+        }
+
+        #nett {
+            margin-top: 1.5em;
+            padding-bottom: 1em;
+            text-align: center;
+        }
+
+        #regimesglob {
+            margin: 0 1em 0 1em;
+            padding-top: 0.5em;
+        }
+    </style>
+
+
+
+
+  </head>
+  <body>
+    <div class="cont">
+        <div id="regimesglob"><span id="titre">Régime :</span>
+            <div id="regimes" class="cont">
+                <span><input type="radio" name="regime" id="regime" value="salarie" checked="checked"> Salarié</span>
+                <span><input type="radio" name="regime" id="regime" value="cadre"> Cadre</span>
+                <span><input type="radio" name="regime" id="regime" value="publique"> Fonction Publique</span>
+                <span><input type="radio" name="regime" id="regime" value="liberale"> Profession Libérale</span>
+                <span><input type="radio" name="regime" id="regime" value="portage"> Portage Salarial</span>
+            </div>
+        </div>
+        <br>
+        <div id="salaires">
+            <div><label for="label1">Salaire horraire brut :</label></div>
+            <div class="tl"><input type="text" id="hbrut" size="10"></div>
+            <div><label for="label1">Salaire mensuel brut :</label></div>
+            <div class="tl"><input type="text" id="mbrut" size="10"></div>
+            <div><label for="label1">Salaire annuel brut :</label></div>
+            <div class="tl"><input type="text" id="abrut" size="10"></div>
+        </div>
+        <!-- Régime : <span id="regimeout"></span><br>
+        Facteur : <span id="facteurout"></span><br> -->
+        <div id="nett">
+            Salaire horraire net : <span id="hnet"></span><br>
+            Salaire mensuel net : <span id="mnet"></span><br>
+            Salaire annuel net : <span id="anet"></span><br>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+    
+    function validerform() {
+        
+        var facteurs = { "salarie" : 0.78, "cadre" : 0.75, "publique": 0.85, "liberale": 0.55, "portage": 0.49 };
+        var radios = document.getElementsByName('regime');
+        var regime;
+        for(var i = 0; i < radios.length; i++){
+            if(radios[i].checked){
+                regime = radios[i].value;
+            }
+        }
+        
+        var hbrut = document.getElementById('hbrut').value;
+        var mbrut = document.getElementById('mbrut').value;
+        var abrut = document.getElementById('abrut').value;
+        var hnet = document.getElementById('hnet');
+        var mnet = document.getElementById('mnet');
+        var anet = document.getElementById('anet');
+        // var regimeout = document.getElementById('regimeout');
+        // var facteurout = document.getElementById('facteurout');
+        var hresultat = Math.round((hbrut * facteurs[regime]) * 100) / 100;
+        var mresultat = Math.round((mbrut * facteurs[regime]) * 100) / 100;
+        var aresultat = Math.round((abrut * facteurs[regime]) * 100) / 100;
+        // regimeout.innerHTML = regime;
+        // facteurout.innerHTML = facteurs[regime];
+        hnet.innerHTML = hresultat;
+        mnet.innerHTML = mresultat;
+        anet.innerHTML = aresultat;
+        return true;
+
+    }
+
+
+
+    // Initiliser les listeners
+    
+    
+    
+    var radios = document.getElementsByName('regime');
+    for(var i = 0; i < radios.length; i++) radios[i].addEventListener('input', function (evt) {
+                    validerform();
+    });
+
+    var hbrut = document.getElementById('hbrut');
+    var mbrut = document.getElementById('mbrut');
+    var abrut = document.getElementById('abrut');
+
+    hbrut.addEventListener('input', function (evt) {
+        mbrut.value = Math.round(hbrut.value*152);
+        abrut.value = Math.round(hbrut.value*2427);
+        validerform();
+    });
+
+    mbrut.addEventListener('input', function (evt) {
+        hbrut.value = Math.round(mbrut.value/152);
+        abrut.value = Math.round(mbrut.value*16);
+        validerform();
+    });
+    
+    abrut.addEventListener('input', function (evt) {
+        hbrut.value = Math.round(abrut.value/2427);
+        mbrut.value = Math.round(abrut.value/16);
+        validerform();
+    });
+
+    </script>
+
+</body>
+</html>
